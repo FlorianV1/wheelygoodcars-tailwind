@@ -14,7 +14,21 @@
 
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         @foreach ($cars as $car)
-            <div class="border rounded-lg shadow p-4 {{ $loop->index % 5 === 0 ? 'col-span-2' : '' }}">
+            <div class="border rounded-lg shadow p-4 relative {{ $loop->index % 5 === 0 ? 'col-span-2' : '' }}">
+                {{-- ❤️ Favorietknop rechtsboven --}}
+                @auth
+                    <form method="POST" action="{{ route('cars.favorite', $car) }}" class="absolute top-2 right-2">
+                        @csrf
+                        <button type="submit" title="Voeg toe aan favorieten">
+                            @if ($car->isFavoritedBy(auth()->user()))
+                                ❤️
+                            @else
+                                🤍
+                            @endif
+                        </button>
+                    </form>
+                @endauth
+
                 <h2 class="text-xl font-semibold text-blue-800">{{ $car->brand }} {{ $car->model }}</h2>
                 <p>Kenteken: {{ $car->license_plate }}</p>
                 <p>Prijs: €{{ number_format($car->price, 2, ',', '.') }}</p>
@@ -27,6 +41,20 @@
                 </div>
 
                 <a href="{{ route('cars.show', $car) }}" class="inline-block mt-4 text-blue-600 hover:underline">Bekijk details</a>
+
+                {{-- 🛠️ Bewerken & Verwijderen alleen voor eigenaar --}}
+                @auth
+                    @if ($car->user_id === auth()->id())
+                        <div class="mt-4 flex gap-2">
+                            <a href="{{ route('cars.edit', $car) }}" class="text-yellow-600 hover:underline text-sm">✏️ Bewerken</a>
+                            <form method="POST" action="{{ route('cars.destroy', $car) }}" onsubmit="return confirm('Weet je zeker dat je deze auto wilt verwijderen?')">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="text-red-600 hover:underline text-sm">🗑️ Verwijder</button>
+                            </form>
+                        </div>
+                    @endif
+                @endauth
             </div>
         @endforeach
     </div>

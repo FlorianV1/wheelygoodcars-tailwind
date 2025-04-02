@@ -29,6 +29,16 @@ class Car extends Model
         'sold_at' => 'datetime',
     ];
 
+    public function favoritedBy()
+    {
+        return $this->belongsToMany(User::class, 'car_user')->withTimestamps();
+    }
+
+    public function isFavoritedBy($user)
+    {
+        return $this->favoritedBy()->where('user_id', $user->id)->exists();
+    }
+
     public function user()
     {
         return $this->belongsTo(User::class);

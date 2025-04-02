@@ -49,6 +49,13 @@ class User extends Authenticatable
         return $this->hasMany(Car::class);
     }
 
+    public function favorites()
+    {
+        return $this->belongsToMany(Car::class, 'car_user')->withTimestamps();
+    }
+
+
+
     public function getSuspiciousAttribute()
     {
         $suspiciousFlags = [];
