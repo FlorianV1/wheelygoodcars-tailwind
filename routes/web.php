@@ -9,7 +9,7 @@ Auth::routes();
 
 Route::get('/', [CarController::class, 'index'])->name('cars.index');
 
-Route::get('/cars/create', [CarController::class, 'create'])->name('cars.create'); // <-- DIT MOET HIER
+Route::get('/cars/create', [CarController::class, 'create'])->name('cars.create');
 Route::get('/cars/{car}', [CarController::class, 'show'])->name('cars.show');
 
 Route::get('/api/cars/fetch-details', [CarController::class, 'fetchCarDetails']);

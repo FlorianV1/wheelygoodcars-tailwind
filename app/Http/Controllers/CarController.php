@@ -177,13 +177,18 @@ class CarController extends Controller
 
     public function edit(Car $car)
     {
-        $this->authorize('update', $car); // optional: policy
+        if ($car->user_id !== auth()->id()) {
+            abort(403, 'Unauthorized');
+        }
+
         return view('cars.edit', compact('car'));
     }
 
     public function update(Request $request, Car $car)
     {
-        $this->authorize('update', $car);
+        if ($car->user_id !== auth()->id()) {
+            abort(403, 'Unauthorized');
+        }
 
         $request->validate([
             'price' => 'required|numeric|min:0',
@@ -194,6 +199,7 @@ class CarController extends Controller
 
         return redirect()->route('cars.my')->with('success', 'Auto is bijgewerkt.');
     }
+
 
 
     public function toggleFavorite(Car $car)
