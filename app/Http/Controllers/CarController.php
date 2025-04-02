@@ -81,9 +81,11 @@ class CarController extends Controller
         }
 
         // Handle tags
-        if ($request->has('tags')) {
+        if ($request->filled('tags')) {
+            $tagsArray = json_decode($request->input('tags'), true); // Decode JSON string to array
+
             $tagIds = [];
-            foreach ($request->tags as $tagName) {
+            foreach ($tagsArray as $tagName) {
                 $tag = Tag::firstOrCreate(['name' => $tagName]);
                 $tagIds[] = $tag->id;
             }
