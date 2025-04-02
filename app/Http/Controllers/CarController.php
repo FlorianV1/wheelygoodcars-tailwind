@@ -172,4 +172,39 @@ class CarController extends Controller
 
         return back()->with('success', 'Tags zijn bijgewerkt.');
     }
+
+    public function edit(Car $car)
+    {
+        $this->authorize('update', $car); // optional: policy
+        return view('cars.edit', compact('car'));
+    }
+
+    public function update(Request $request, Car $car)
+    {
+        $this->authorize('update', $car);
+
+        $request->validate([
+            'price' => 'required|numeric|min:0',
+            'color' => 'nullable|string|max:255',
+        ]);
+
+        $car->update($request->only(['price', 'color']));
+
+        return redirect()->route('cars.my')->with('success', 'Auto is bijgewerkt.');
+    }
+
+
+    public function toggleFavorite(Car $car)
+    {
+        $user = auth()->user();
+
+        if ($car->isFavoritedBy($user)) {
+            $user->favorites()->detach($car);
+        } else {
+            $user->favorites()->attach($car);
+        }
+
+        return back();
+    }
+
 }
