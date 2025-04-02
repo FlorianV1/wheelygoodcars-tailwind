@@ -63,4 +63,9 @@ class Car extends Model
     {
         $this->increment('views');
     }
+
+    public function buyer()
+    {
+        return $this->belongsTo(User::class, 'buyer_id');
+    }
 }

@@ -200,8 +200,6 @@ class CarController extends Controller
         return redirect()->route('cars.my')->with('success', 'Auto is bijgewerkt.');
     }
 
-
-
     public function toggleFavorite(Car $car)
     {
         $user = auth()->user();
@@ -215,4 +213,23 @@ class CarController extends Controller
         return back();
     }
 
+    public function buy(Car $car)
+    {
+        $user = auth()->user();
+
+        if ($car->user_id === $user->id) {
+            return back()->with('error', 'Je kunt je eigen auto niet kopen.');
+        }
+
+        if ($car->isSold()) {
+            return back()->with('error', 'Deze auto is al verkocht.');
+        }
+
+        $car->update([
+            'sold_at' => now(),
+            'buyer_id' => $user->id, // optional
+        ]);
+
+        return back()->with('success', 'Je hebt deze auto succesvol gekocht!');
+    }
 }

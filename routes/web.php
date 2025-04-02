@@ -23,6 +23,7 @@ Route::middleware(['auth'])->group(function () {
     Route::put('/cars/{car}', [CarController::class, 'update'])->name('cars.update');
 
     Route::delete('/cars/{car}', [CarController::class, 'destroy'])->name('cars.destroy');
+    Route::post('/cars/{car}/buy', [CarController::class, 'buy'])->name('cars.buy')->middleware('auth');
 
     Route::post('/cars/{car}/update-status', [CarController::class, 'updateStatus'])->name('cars.updateStatus');
     Route::post('/cars/{car}/update-price', [CarController::class, 'updatePrice'])->name('cars.updatePrice');
