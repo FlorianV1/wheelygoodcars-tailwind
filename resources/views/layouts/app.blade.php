@@ -7,12 +7,20 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="bg-gray-100 text-gray-800">
+
 <nav class="bg-white border-b shadow mb-6">
     <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
         <a href="{{ url('/') }}" class="text-xl font-bold text-blue-700">WheelyGoodCars</a>
-        <div class="space-x-4">
+
+        <div class="space-x-4 flex items-center">
             @auth
                 <a href="{{ route('cars.my') }}" class="text-blue-700 hover:underline">Mijn auto's</a>
+
+                {{-- ➕ Nieuwe auto toevoegen knop --}}
+                <a href="{{ route('cars.create') }}" class="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700 text-sm">
+                    + Nieuwe auto
+                </a>
+
                 <form method="POST" action="{{ route('logout') }}" class="inline">
                     @csrf
                     <button class="text-red-600 hover:underline">Logout</button>
@@ -25,8 +33,9 @@
     </div>
 </nav>
 
-<main class="max-w-xl mx-auto px-4">
-    @yield('content')
+<main class="max-w-7xl mx-auto px-4">
+    {{ $slot }}
 </main>
+
 </body>
 </html>
