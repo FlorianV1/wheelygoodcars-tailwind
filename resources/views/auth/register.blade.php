@@ -1,39 +1,54 @@
-<x-app-layout>
-    <!-- Session Status -->
-    <x-auth-session-status class="mb-4" :status="session('status')" />
+@extends('layouts.app')
 
-    <div class="flex flex-col justify-center items-center min-h-screen">
-        <div class="bg-white shadow-md rounded-lg p-4 h-full" style="min-width: 50%;">
-            <div class="p-4">
-                <h5 class="text-lg font-semibold mb-4">Inloggen</h5>
-                @include('layouts.error')
-                <form action="{{ route('register.do') }}" method="POST">
-                    @csrf
-                    <div class="mb-4 flex items-center">
-                        <label for="name" class="block text-sm font-medium text-gray-700 w-1/3">Naam:</label>
-                        <div class="w-2/3">
-                        <input type="text" name="name" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-orange-500 focus:ring-orange-500" id="name" placeholder="Max Verstappen"></div>
-                    </div>
-                    <div class="mb-4 flex items-center">
-                        <label for="email" class="block text-sm font-medium text-gray-700 w-1/3">E-mailadres:</label>
-                        <div class="w-2/3">
-                        <input type="email" name="email" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-orange-500 focus:ring-orange-500" id="email" placeholder="name@example.com"></div>
-                    </div>
-                    <div class="mb-4 flex items-center">
-                        <label for="password" class="block text-sm font-medium text-gray-700 w-1/3">Wachtwoord:</label>
-                        <div class="w-2/3">
-                        <input type="password" name="password" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-orange-500 focus:ring-orange-500" id="password"></div>
-                    </div>
-                    <div class="mb-4 flex items-center">
-                        <label for="password_confirmation" class="block text-sm font-medium text-gray-700 w-1/3">Wachtwoord herhalen:</label>
-                        <div class="w-2/3">
-                        <input type="password" name="password_confirmation" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-orange-500 focus:ring-orange-500" id="password_confirmation"></div>
-                    </div>
-                    <div class="mb-4">
-                        <input type="submit" class="mt-4 w-full inline-flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-orange-500 hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-400" value="Registreren">
-                    </div>
-                </form>
+@section('content')
+    <div class="bg-white p-6 rounded-lg shadow-md">
+        <h2 class="text-2xl font-semibold text-blue-700 mb-6">Registreren</h2>
+        <form method="POST" action="{{ route('register') }}">
+            @csrf
+
+            <div class="mb-4">
+                <label for="name" class="block text-gray-700">Naam</label>
+                <input id="name" type="text" name="name"
+                       class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 @error('name') border-red-500 @enderror"
+                       value="{{ old('name') }}" required autofocus>
+                @error('name')
+                <span class="text-red-500 text-sm">{{ $message }}</span>
+                @enderror
             </div>
-        </div>
+
+            <div class="mb-4">
+                <label for="email" class="block text-gray-700">Email</label>
+                <input id="email" type="email" name="email"
+                       class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 @error('email') border-red-500 @enderror"
+                       value="{{ old('email') }}" required>
+                @error('email')
+                <span class="text-red-500 text-sm">{{ $message }}</span>
+                @enderror
+            </div>
+
+            <div class="mb-4">
+                <label for="password" class="block text-gray-700">Wachtwoord</label>
+                <input id="password" type="password" name="password"
+                       class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 @error('password') border-red-500 @enderror"
+                       required>
+                @error('password')
+                <span class="text-red-500 text-sm">{{ $message }}</span>
+                @enderror
+            </div>
+
+            <div class="mb-4">
+                <label for="password-confirm" class="block text-gray-700">Bevestig wachtwoord</label>
+                <input id="password-confirm" type="password" name="password_confirmation"
+                       class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                       required>
+            </div>
+
+            <div class="flex justify-end">
+                <button type="submit"
+                        class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+                    Registreren
+                </button>
+            </div>
+        </form>
     </div>
-</x-app-layout>
+@endsection

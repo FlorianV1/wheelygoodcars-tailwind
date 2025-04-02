@@ -1,46 +1,32 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-
-    <title>{{ config('app.name', 'Laravel') }}</title>
-
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.bunny.net">
-    <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
-
-    <!-- Scripts -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ config('app.name', 'WheelyGoodCars') }}</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body class="font-sans antialiased bg-blue-50">
-<nav class="bg-blue-800 flex py-3">
-    <div class="w-full mx-auto px-4 flex">
-        <a class="text-lg text-white min-w-48" href="{{ route('home') }}"><strong class="text-blue-300 text-bold">Wheely</strong> good cars<strong class="text-blue-300 text-bold">!</strong></a>
-        <div class="flex justify-between w-full" id="navbarNav">
-            <ul class="flex items-end">
-                <li class="mr-4"><a class="text-white hover:text-blue-200" href="{{ route('cars.index') }}">Alle auto's</a></li>
-                @auth
-                    <li class="mr-4"><a class="text-white hover:text-blue-200" href="{{ route('cars.my') }}">Mijn aanbod</a></li>
-                    <li class="mr-4"><a class="text-white hover:text-blue-200" href="{{ route('cars.create') }}">Aanbod plaatsen</a></li>
-                @endauth
-            </ul>
-            <ul class="flex">
-                @guest
-                    <li class="mr-4"><a class="text-blue-300 hover:text-blue-200" href="{{ route('register') }}">Registreren</a></li>
-                    <li class="mr-4"><a class="text-blue-300 hover:text-blue-200" href="{{ route('login') }}">Inloggen</a></li>
-                @endguest
-                @auth
-                    <li class="mr-4"><a class="text-blue-300 hover:text-blue-200" href="{{ route('logout') }}">Uitloggen</a></li>
-                @endauth
-            </ul>
+<body class="bg-gray-100 text-gray-800">
+<nav class="bg-white border-b shadow mb-6">
+    <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
+        <a href="{{ url('/') }}" class="text-xl font-bold text-blue-700">WheelyGoodCars</a>
+        <div class="space-x-4">
+            @auth
+                <a href="{{ route('cars.my') }}" class="text-blue-700 hover:underline">Mijn auto's</a>
+                <form method="POST" action="{{ route('logout') }}" class="inline">
+                    @csrf
+                    <button class="text-red-600 hover:underline">Logout</button>
+                </form>
+            @else
+                <a href="{{ route('login') }}" class="text-blue-700 hover:underline">Login</a>
+                <a href="{{ route('register') }}" class="text-blue-700 hover:underline">Registreer</a>
+            @endauth
         </div>
     </div>
 </nav>
 
-<div class="max-w-7xl mx-auto px-4 py-6">
-    {{ $slot }}
-</div>
+<main class="max-w-xl mx-auto px-4">
+    @yield('content')
+</main>
 </body>
 </html>
