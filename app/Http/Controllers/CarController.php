@@ -6,6 +6,7 @@ use App\Models\Car;
 use App\Models\Tag;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class CarController extends Controller
 {
@@ -127,7 +128,12 @@ class CarController extends Controller
 
     public function generatePdf(Car $car)
     {
-        $pdf = PDF::loadView('cars.pdf', compact('car'));
+        if ($car->user_id !== auth()->id()) {
+            abort(403, 'Je mag alleen je eigen auto exporteren.');
+        }
+
+        $pdf = Pdf::loadView('cars.pdf', compact('car'));
+
         return $pdf->download('auto-' . $car->license_plate . '.pdf');
     }
 

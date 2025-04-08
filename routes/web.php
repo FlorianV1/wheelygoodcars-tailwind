@@ -31,4 +31,5 @@ Route::middleware(['auth'])->group(function () {
 
     Route::post('/cars/{car}/favorite', [CarController::class, 'toggleFavorite'])->name('cars.favorite');
     Route::get('/cars/{car}/pdf', [CarController::class, 'generatePdf'])->name('cars.pdf');
+
 });

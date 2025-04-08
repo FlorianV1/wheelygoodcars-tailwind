@@ -30,8 +30,12 @@
                     <td class="px-4 py-2 whitespace-nowrap space-x-1">
                         {{-- Bewerken --}}
                         <a href="{{ route('cars.edit', $car) }}"
-                           class="inline-block text-sm bg-yellow-400 text-white px-3 py-1 rounded hover:bg-yellow-500">
+                           class="inline-block text-sm bg-green-400 text-white px-3 py-1 rounded hover:bg-yellow-500">
                             ✏️ Bewerken
+                        </a>
+                        <a href="{{ route('cars.pdf', $car) }}"
+                           class="inline-block text-sm bg-yellow-400 text-white px-3 py-1 rounded hover:bg-yellow-500">
+                            📄 Genereer PDF
                         </a>
 
                         {{-- Verwijderen --}}

@@ -70,15 +70,12 @@
                 </button>
 
                 @auth
-                    <form method="POST" action="{{ route('cars.favorite', $car) }}">
-                        @csrf
-                        <button type="submit"
-                                class="bg-yellow-400 text-white px-5 py-2 rounded-md hover:bg-yellow-500 transition text-sm">
-                            {{ auth()->user()->favorites->contains($car) ? '★ Verwijder favoriet' : '☆ Voeg toe favoriet' }}
-                        </button>
-                    </form>
-
-                    @if(auth()->id() === $car->user_id)
+                    <a href="{{ route('cars.pdf', $car) }}"
+                       class="inline-block mt-4 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+                       target="_blank">
+                        📄 Genereer PDF
+                    </a>
+                @if(auth()->id() === $car->user_id)
                         <a href="{{ route('cars.edit', $car) }}"
                            class="bg-blue-600 text-white px-5 py-2 rounded-md hover:bg-blue-700 transition text-sm">
                             ✏️ Bewerken
