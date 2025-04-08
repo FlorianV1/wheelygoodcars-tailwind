@@ -1,7 +1,0 @@
-todo wheelygoodcars
-
-add buy button
-
-add staff function
-
-done: A1 A2 A3 B1 B2 B3 B5 B6 B7
