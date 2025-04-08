@@ -29,7 +29,7 @@ class CarController extends Controller
             });
         }
 
-        $cars = $query->paginate(10);
+        $cars = $query->paginate(30);
         $tags = Tag::withCount('cars')->orderBy('cars_count', 'desc')->get();
 
         return view('cars.index', compact('cars', 'tags'));
@@ -76,8 +76,8 @@ class CarController extends Controller
 
         // Handle image upload
         if ($request->hasFile('image')) {
-            $path = $request->file('image')->store('cars', 'public');
-            $car->update(['image' => $path]);
+                $path = $request->file('image')->store('cars', 'public');
+                $car->update(['image' => $path]);
         }
 
         // Handle tags
