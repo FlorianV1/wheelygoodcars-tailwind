@@ -1,7 +1,7 @@
 <x-app-layout>
     <h1 class="text-2xl font-bold text-blue-800 mb-4">Auto's te koop</h1>
 
-    <form method="GET" class="mb-4 flex gap-2">
+    <form method="GET" class="mb-4 flex flex-col sm:flex-row gap-2">
         <input name="search" value="{{ request('search') }}" placeholder="Zoek op merk of model" class="p-2 border rounded w-full" />
         <select name="tag" class="p-2 border rounded">
             <option value="">-- Tags --</option>
@@ -12,9 +12,9 @@
         <button class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Zoeken</button>
     </form>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         @foreach ($cars as $car)
-            <div class="border rounded-lg shadow p-4 relative {{ $loop->index % 5 === 0 ? 'col-span-2' : '' }}">
+            <div class="border rounded-lg shadow p-4 relative flex flex-col">
                 {{-- ❤️ Favorietknop rechtsboven --}}
                 @auth
                     <form method="POST" action="{{ route('cars.favorite', $car) }}" class="absolute top-2 right-2">
@@ -28,21 +28,34 @@
                         </button>
                     </form>
                 @endauth
+                {{-- 🚘 Car Image --}}
+                @if ($car->image)
+                    <img src="{{ asset('storage/' . $car->image) }}"
+                         alt="Afbeelding van {{ $car->brand }} {{ $car->model }}"
+                         class="w-full h-48 object-cover rounded mb-4">
+                @else
+                    <div class="w-full h-48 bg-gray-100 flex items-center justify-center text-gray-400 mb-4 rounded">
+                        Geen afbeelding
+                    </div>
+                @endif
 
+                {{-- 🧾 Car Info --}}
                 <h2 class="text-xl font-semibold text-blue-800">{{ $car->brand }} {{ $car->model }}</h2>
                 <p>Kenteken: {{ $car->license_plate }}</p>
                 <p>Prijs: €{{ number_format($car->price, 2, ',', '.') }}</p>
                 <p>KM-stand: {{ number_format($car->mileage, 0, ',', '.') }} km</p>
 
+                {{-- 🏷️ Tags --}}
                 <div class="mt-2 flex gap-1 flex-wrap">
                     @foreach ($car->tags as $tag)
-                        <span class="badge bg-blue-100 text-blue-800 px-2 py-1 rounded text-xs">{{ $tag->name }}</span>
+                        <span class="bg-blue-100 text-blue-800 px-2 py-1 rounded text-xs">{{ $tag->name }}</span>
                     @endforeach
                 </div>
 
+                {{-- 🔗 Details --}}
                 <a href="{{ route('cars.show', $car) }}" class="inline-block mt-4 text-blue-600 hover:underline">Bekijk details</a>
 
-                {{-- 🛠️ Bewerken & Verwijderen alleen voor eigenaar --}}
+                {{-- ✏️ Edit/Delete --}}
                 @auth
                     @if ($car->user_id === auth()->id())
                         <div class="mt-4 flex gap-2">

@@ -1,7 +1,5 @@
-@extends('layouts.app')
-
-@section('content')
-    <div class="bg-white p-6 rounded-lg shadow-md">
+<x-app-layout>
+<div class="bg-white p-6 rounded-lg shadow-md">
         <h2 class="text-2xl font-semibold text-blue-700 mb-6">Login</h2>
         <form method="POST" action="{{ route('login') }}">
             @csrf
@@ -47,4 +45,4 @@
             </div>
         </form>
     </div>
-@endsection
+</x-app-layout>
