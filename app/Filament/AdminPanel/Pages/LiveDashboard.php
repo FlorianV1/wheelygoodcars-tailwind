@@ -38,4 +38,5 @@ class LiveDashboard extends Page
             ],
         ];
     }
+
 }
